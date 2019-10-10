@@ -1,25 +1,29 @@
 package main
 
-// need to first run: go get github.com/fatih/color 
+// need to first run: go get github.com/fatih/color
 import (
-  "io"
-  "os"
+	"bufio" //https://golang.org/pkg/bufio/
+	"fmt"
+	"os"
 )
 
 func main() {
-  myMessage := ""
-  arguments := os.Args
-  // https://golang.org/pkg/builtin/#len
-  if len(arguments) == 1 {
-    myMessage = "No arguements provided"
-  } else {
-    myMessage = arguments[1]
-  }
+	var f *os.File // "f" is a pointer to memory location that will hold a variable of the type os.File.
+	// os.File is a path to a file on the fileystem
+	f = os.Stdin // here we chose the Stdin as the the filepath to use. In Linux, stdin, stdout, and stderr are all essentially files behind the scenese
 
-  // https://golang.org/pkg/io
-  // io.WriteString() works in a similar way to fmt.Print(). the main difference is that fmt.Print() can take multiple parameters, e.g. fmt.Print(var1, "some stuff", var2, "even more stuff", "etc") 
-  // wheerase io.WriteString() can only take exactly 2 params, where to write to, and what to write.  
-  io.WriteString(os.Stdout, myMessage)
-  io.WriteString(os.Stdout, "\n")
+	defer f.Close() // https://tour.golang.org/flowcontrol/12
+	// defer means that this line is triggered once the main function finishes running.
+	// we are applying the Close method for the f object.
+
+	// This is a bit like opening the file to start writing to it
+	scanner := bufio.NewScanner(f)
+
+	// https://golang.org/pkg/bufio/#Scanner.Scan
+	for scanner.Scan() {
+		fmt.Println(">>>", scanner.Text())
+  }
+  
+  // you need to do ctrl+d to escape this for-loop
 
 }
