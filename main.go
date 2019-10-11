@@ -5,6 +5,7 @@ import (
 	"bufio" //https://golang.org/pkg/bufio/
 	"fmt"
 	"os"
+	"reflect"
 )
 
 func main() {
@@ -20,9 +21,11 @@ func main() {
 	scanner := bufio.NewScanner(f)
 
 	// https://golang.org/pkg/bufio/#Scanner.Scan
+	// xxx..Scan() is effectively the bash equivalent of of the 'read' command
 	for scanner.Scan() {
+		fmt.Println(reflect.TypeOf(scanner.Text()))
 		fmt.Println(">>>", scanner.Text())
-  }
+        }
   
   // you need to do ctrl+d to escape this for-loop
 
